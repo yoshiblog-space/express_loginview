@@ -1,0 +1,45 @@
+.header{
+  display: block;
+  width: 150px;
+  margin-left:auto;
+}
+.sentenceleft {
+  text-align: right;
+  padding-right: 5px;
+}
+.formtable {
+  margin-left: auto;
+  margin-right: auto;
+}
+.formbox {
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  border: 1px solid;
+  border-color: rgb(128, 121, 121, 0.5);
+}
+.formbox table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:20px;
+}
+.formtop {
+  padding: 5px 0px 5px 10px;
+  margin: 0px;
+  border-bottom: 1px solid;
+  border-color: rgb(128, 121, 121, 0.5);
+  background-color: rgb(128, 128, 128, 0.6);
+}
+.formbox table {
+  text-align: center;
+}
+.commit {
+  justify-content: center;
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+.commit p {
+  margin: 0px 0px 0px 5px;
+}
