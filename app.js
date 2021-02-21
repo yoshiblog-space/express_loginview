@@ -1,37 +1,11 @@
-const express = require("express");
+const express = require('express');
 const app = express();
+const userController = require('./controllers/UserController')
 
 // テンプレートエンジンの指定
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 app.use(express.static('public'))
-
-app.get("/", function (req, res) {
-  const data = {
-    title: "Login",
-    forms: [
-      { name: "E-Mail Adress" },
-      { name: "Password" },
-    ],
-    message:"Forgot Your Password"
-  };
-  // レンダリングを行う
-  res.render("./login.ejs", data);
-});
-
-app.get("/register", function (req, res) {
-  const data = {
-    title: "Register",
-    forms: [
-      { name: "Name" },
-      { name: "E-Mail Adress" },
-      { name: "Password" },
-      { name: "Confirm Password" },
-    ],
-    message: ""
-  };
-  // レンダリングを行う
-  res.render("./login.ejs", data);
-})
-
+app.get('/', userController.doGetLogin);
+app.get('/register', userController.doGetRegister);
 app.listen(3000);
 
