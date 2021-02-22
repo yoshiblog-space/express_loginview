@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="style.css" rel="stylesheet" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <div class="header">
+      <a href="/">Login</a>
+      <a href="/register">Register</a>
+    </div>
+    <div class="formbox">
+      <p class="formtop"><%= title %></p>
+      <div class="formtable">
+        <%- include("./form.ejs", forms) %>
+        <div class="commit">
+          <button><%= title %></button>
+          <p><%= message %></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
