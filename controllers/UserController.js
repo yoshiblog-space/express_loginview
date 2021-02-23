@@ -44,7 +44,6 @@ module.exports = {
   },
   doGetRegisterErr(req, res) {
     const inputcheck = req.body.Name && req.body.EmailAdress && req.body.Password && req.body.ConfirmPassword;
-    console.log(req.body)
     if (inputcheck) {
       if (req.body.Password.length > 6) {
         if (req.body.Password === req.body.ConfirmPassword) {
