@@ -1,31 +1,65 @@
-const express = require('express');
 const Views = '../views/'
+
+const loginView = {
+  title: 'Login',
+  forms: [
+    { name: 'E-Mail Adress' },
+    { name: 'Password' },
+  ],
+  errormessage: '',
+  message: 'Forgot Your Password'
+};
+const registerView = {
+  title: 'Register',
+  forms: [
+    { name: 'Name' },
+    { name: 'EmailAdress' },
+    { name: 'Password' },
+    { name: 'ConfirmPassword' },
+  ],
+  errormessage: '',
+  message: ''
+};
+const dashboardView = {
+  title: 'DashBoard',
+  username: '',
+  message: 'You are Log in!'
+};
 
 module.exports = {
   doGetLogin(req, res) {
-    const data = {
-      title: 'Login',
-      forms: [
-        { name: 'E-Mail Adress' },
-        { name: 'Password' },
-      ],
-      message: 'Forgot Your Password'
-    };
-    // レンダリングを行う
-    res.render(Views + 'login.ejs', data);
+    res.render(Views + 'login.ejs', loginView);
   },
   doGetRegister(req, res) {
-    const data = {
-      title: 'Register',
-      forms: [
-        { name: 'Name' },
-        { name: 'E-Mail Adress' },
-        { name: 'Password' },
-        { name: 'Confirm Password' },
-      ],
-      message: ''
-    };
-    // レンダリングを行う
-    res.render(Views + 'login.ejs', data);
+    registerView.errormessage = '';
+    res.render(Views + 'login.ejs', registerView);
+  },
+  doGetRegisterErr1(req, res) {
+
+    registerView.errormessage = 'パスワード7桁以上必要';
+    res.render(Views + 'login.ejs', registerView);
+  },
+  doGetDashBoard(req, res) {
+    res.render(Views + 'dashboard.ejs', dashboardView);
+  },
+  doGetRegisterErr(req, res) {
+    const inputcheck = req.body.Name && req.body.EmailAdress && req.body.Password && req.body.ConfirmPassword;
+    console.log(req.body)
+    if (inputcheck) {
+      if (req.body.Password.length > 6) {
+        if (req.body.Password === req.body.ConfirmPassword) {
+          res.redirect('/dashboard');
+        } else {
+          registerView.errormessage = 'パスワードが一致しません。';
+          res.render(Views + 'login.ejs', registerView);
+        }
+      } else {
+        registerView.errormessage = 'パスワード7桁以上必要です';
+        res.render(Views + 'login.ejs', registerView);
+      }
+    } else {
+      registerView.errormessage = '未入力があります';
+      res.render(Views + 'login.ejs', registerView);
+    }
   }
 }
