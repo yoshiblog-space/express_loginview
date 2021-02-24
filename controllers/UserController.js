@@ -1,4 +1,5 @@
 const Views = '../views/'
+const { check, validationResult } = require('express-validator');
 
 const loginView = {
   title: 'Login',
@@ -6,7 +7,7 @@ const loginView = {
     { name: 'E-Mail Adress' },
     { name: 'Password' },
   ],
-  errormessage: '',
+  errormessages: '',
   message: 'Forgot Your Password'
 };
 const registerView = {
@@ -17,7 +18,7 @@ const registerView = {
     { name: 'Password' },
     { name: 'ConfirmPassword' },
   ],
-  errormessage: '',
+  errormessages: '',
   message: ''
 };
 const dashboardView = {
@@ -31,34 +32,30 @@ module.exports = {
     res.render(Views + 'login.ejs', loginView);
   },
   doGetRegister(req, res) {
-    registerView.errormessage = '';
-    res.render(Views + 'login.ejs', registerView);
-  },
-  doGetRegisterErr1(req, res) {
-
-    registerView.errormessage = 'パスワード7桁以上必要';
+    registerView.errormessages = '';
     res.render(Views + 'login.ejs', registerView);
   },
   doGetDashBoard(req, res) {
     res.render(Views + 'dashboard.ejs', dashboardView);
   },
+  validationList: [
+    check('Name')
+      .notEmpty().withMessage('名前を入力してください。'),
+    check('EmailAdress')
+      .isEmail().withMessage('メールアドレスを入力して下さい'),
+    check('Password')
+      .notEmpty().withMessage('パスワードを入力してください。')
+      .isLength({ min: 7 }).withMessage('パスワードを7文字以上で入力してください。'),
+    check('ConfirmPassword')
+      .custom((value, { req }) => value === req.body.Password)
+      .withMessage('パスワードが一致しません'),
+  ],
   doGetRegisterErr(req, res) {
-    const inputcheck = req.body.Name && req.body.EmailAdress && req.body.Password && req.body.ConfirmPassword;
-    if (inputcheck) {
-      if (req.body.Password.length > 6) {
-        if (req.body.Password === req.body.ConfirmPassword) {
-          res.redirect('/dashboard');
-        } else {
-          registerView.errormessage = 'パスワードが一致しません。';
-          res.render(Views + 'login.ejs', registerView);
-        }
-      } else {
-        registerView.errormessage = 'パスワード7桁以上必要です';
-        res.render(Views + 'login.ejs', registerView);
-      }
-    } else {
-      registerView.errormessage = '未入力があります';
-      res.render(Views + 'login.ejs', registerView);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      registerView.errormessages = errors.array();
+      return res.render(Views + 'login.ejs', registerView);
     }
+    res.redirect('/dashboard');
   }
 }

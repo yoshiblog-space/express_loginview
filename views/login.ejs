@@ -15,11 +15,17 @@
       <form method="POST">
         <div class="formtable">
           <%- include("./form.ejs", forms) %>
-          <p class="red"><%= errormessage %></p>
           <div class="commit">
             <button type="submit"><%= title %></button>
             <p><%= message %></p>
           </div>
+          <% if(errormessages) { %>
+          <ul>
+            <% for (let n in errormessages) { %>
+            <li class="red"><%= errormessages[n].msg %></li>
+            <% } %>
+          </ul>
+          <% } %>
         </div>
       </form>
     </div>
