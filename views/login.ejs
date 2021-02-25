@@ -12,13 +12,22 @@
     </div>
     <div class="formbox">
       <p class="formtop"><%= title %></p>
-      <div class="formtable">
-        <%- include("./form.ejs", forms) %>
-        <div class="commit">
-          <button><%= title %></button>
-          <p><%= message %></p>
+      <form method="POST">
+        <div class="formtable">
+          <%- include("./form.ejs", forms) %>
+          <div class="commit">
+            <button type="submit"><%= title %></button>
+            <p><%= message %></p>
+          </div>
+          <% if(errormessages) { %>
+          <ul>
+            <% for (let n in errormessages) { %>
+            <li class="red"><%= errormessages[n].msg %></li>
+            <% } %>
+          </ul>
+          <% } %>
         </div>
-      </div>
+      </form>
     </div>
   </body>
 </html>
