@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
-const { check, validationResult } = require('express-validator');
 const userController = require('./controllers/UserController')
-var testValidator = require('./validator/TestValidator.js')
-const Views = '../views/'
+const loginValidator = require('./validator/loginValidator.js')
 
 // テンプレートエンジンの指定
 app.set('view engine', 'ejs');
@@ -13,6 +11,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.get('/', userController.doGetLogin);
 app.get('/register', userController.doGetRegister);
-app.post('/register', testValidator, userController.doGetRegisterErr);
+app.post('/register', loginValidator, userController.doGetRegisterErr);
 app.get('/dashboard', userController.doGetDashBoard);
 app.listen(3000);
